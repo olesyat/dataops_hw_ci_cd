@@ -123,7 +123,8 @@ jobs:
       id: version
       run: |
         # Get the latest deployment version from the cluster (e.g., gitops-ci-hw-1, gitops-ci-hw-2)
-        CURRENT_VERSION=$(kubectl get deployments -n gitops-ci-hw -o=jsonpath='{.items[?(@.metadata.name | startswith("gitops-ci-hw-"))].metadata.name}' | \
+        CURRENT_VERSION=$(kubectl get deployments -n gitops-ci-hw -o json | \
+          jq -r '.items[] | select(.metadata.name | test("^gitops-ci-hw-")) | .metadata.name' | \
           grep -o '[0-9]*$' | sort -n | tail -n 1)
 
         # Increment the version
@@ -139,7 +140,7 @@ jobs:
     - name: Update kustomization.yaml with the new version
       run: |
         # Replace the placeholder with the new version in the deployment patch
-        sed -i "s/name: gitops-ci-hw-.*/name: gitops-ci-hw-${{ env.NEXT_VERSION }}/" kustomization.yaml
+        sed -i "s/name: gitops-ci-hw-.*/name: gitops-ci-hw-${{ env.NEXT_VERSION }}/" ./k8s/kustomization.yaml
 
     - name: Build and apply Kustomize deployment
       run: |
