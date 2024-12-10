@@ -79,6 +79,7 @@ jobs:
     steps:
     - name: Check out code
       uses: actions/checkout@v2
+
     - name: Setup Kustomize
       uses: imranismail/setup-kustomize@v1
       with:
@@ -95,3 +96,17 @@ jobs:
     - name: Get the GKE credentials so we can deploy to the cluster
       run: |
         gcloud container clusters get-credentials "$GKE_CLUSTER" --region "$GKE_REGION"
+
+    - name: Set up Kubectl
+      uses: azure/setup-kubectl@v3
+      with:
+        version: 'latest'
+
+    - name: Apply v1 deployment
+      run: |
+        kubectl apply -f app-v1.yaml
+
+    - name: Test v1 deployment
+      run: |
+        service=$(kubectl get svc my-app -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+        curl "$service"
