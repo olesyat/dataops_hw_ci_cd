@@ -175,7 +175,7 @@ jobs:
 
     - name: Delete v1
       run: |
-        kubectl delete deploy my-app-v${{ env.CURRENT_VERSION }}
+        kubectl delete deploy my-app-${{ env.CURRENT_VERSION }}
 
 
 
