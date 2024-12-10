@@ -142,6 +142,21 @@ jobs:
         # Replace the placeholder with the new version in the deployment patch
         sed -i "s/name: gitops-ci-hw-.*/name: gitops-ci-hw-${{ env.NEXT_VERSION }}/" ./k8s/kustomization.yaml
 
+    - name: Display CURRENT_VERSION, NEXT_VERSION, and Files
+      run: |
+        # Display the CURRENT_VERSION and NEXT_VERSION
+        echo "CURRENT_VERSION: $CURRENT_VERSION"
+        echo "NEXT_VERSION: $NEXT_VERSION"
+
+        # Display the contents of the kustomization.yaml file
+        echo "kustomization.yaml contents:"
+        cat ./k8s/kustomization.yaml
+
+        # Display the contents of the app-v1.yaml file
+        echo "app-v1.yaml contents:"
+        cat ./k8s/app-v1.yaml
+
+
     - name: Build and apply Kustomize deployment
       run: |
         kustomize build ./k8s | kubectl apply -f -
