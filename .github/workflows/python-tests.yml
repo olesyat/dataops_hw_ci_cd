@@ -37,6 +37,10 @@ jobs:
       id: buildx
       uses: docker/setup-buildx-action@v2
 
+    - name: Debug Docker tag
+      run: |
+        echo "Tag: ${{ secrets.DOCKER_USERNAME }}/gitops-ci-hw:${{ github.sha }}"
+
     - name: Cache Docker layers
       uses: actions/cache@v3
       with:
