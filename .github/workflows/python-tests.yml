@@ -86,12 +86,12 @@ jobs:
         kustomize-version: "3.6.1"
 
     - name: Authenticate to Google Cloud
-      uses: 'google-github-actions/auth@v0'
+      uses: google-github-actions/auth@vv2.1.7
       with:
         credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
 
     - name: Set up Cloud SDK
-      uses: google-github-actions/setup-gcloud@v0
+      uses: google-github-actions/setup-gcloud@vv2.1.2
 
     - name: Get the GKE credentials so we can deploy to the cluster
       run: |
@@ -109,7 +109,7 @@ jobs:
 
     - name: Apply v1 deployment
       run: |
-        kubectl apply -f kubectl apply -f ./k8s/app-v1.yaml
+        kubectl apply -f ./k8s/app-v1.yaml
 
     - name: Test v1 deployment
       run: |
