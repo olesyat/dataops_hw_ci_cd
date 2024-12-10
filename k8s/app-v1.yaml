@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: gitops-ci-hw
-  name: gitops-ci-hw-1
+  name: gitops-ci-hw-${VERSION}
 spec:
   replicas: 2
   selector:
