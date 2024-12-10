@@ -11,4 +11,5 @@ spec:
       targetPort: http
   selector:
     app: gitops-ci-hw
+    version: 1
   type: ClusterIP

@@ -119,10 +119,18 @@ jobs:
       run: |
         kubectl apply -f ./k8s/service.yaml
 
-    - name: List all services
-      run: kubectl get svc
-
-    - name: Test v1 deployment
+    - name: Apply v2 deployment
       run: |
-        service=$(kubectl get svc gitops-ci-hw -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-        curl "$service"
+        kubectl apply -f ./k8s/app-v2.yaml
+
+    - name: Check Success of v2 deployment
+      run: |
+        kubectl rollout status deploy gitops-ci-hw-v2 -w
+
+    - name: Patch service
+      run: |
+        kubectl patch service gitops-ci-hw -p '{"spec":{"selector":{"version":"v2.0.0"}}}'
+
+
+
+

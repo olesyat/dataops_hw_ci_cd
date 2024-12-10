@@ -9,14 +9,15 @@ spec:
   selector:
     matchLabels:
       app: gitops-ci-hw
-      version: v2.0.0
+      version: 2
   template:
     metadata:
       labels:
         app: gitops-ci-hw
+        version: 2
     spec:
       containers:
-        - image: gitops-ci-hw
+        - image: olesiayav/gitops_ci_hw
           name: gitops-ci-hw
           ports:
             - name: http
