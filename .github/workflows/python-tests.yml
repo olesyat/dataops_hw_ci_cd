@@ -111,71 +111,71 @@ jobs:
       with:
         version: 'latest'
 
-#    - name: Apply v1 deployment
-#      run: |
-#        kubectl apply -f ./k8s/app-v1.yaml
-#
-#    - name: Apply Service
-#      run: |
-#        kubectl apply -f ./k8s/service.yaml
-
-    - name: Get the latest deployment version and set the version variable
-      id: version
-      run: |
-        CURRENT_VERSION=$(kubectl get deployments -n gitops-ci-hw -o json | \
-          jq -r '.items[] | select(.metadata.name | test("^gitops-ci-hw-")) | .metadata.name' | \
-          grep -o '[0-9]*$' | sort -n | tail -n 1)
-
-        if [ -z "$CURRENT_VERSION" ]; then
-          CURRENT_VERSION=1
-        fi
-
-        NEXT_VERSION="v${{ env.NEXT_VERSION }}"
-        echo "NEXT_VERSION=$NEXT_VERSION" >> $GITHUB_ENV
-
-    - name: Update app-v1.yaml with the new version
-      run: |
-        # Replace the placeholder ${VERSION} with the new version from NEXT_VERSION
-        sed -i "s/gitops-ci-hw-\${VERSION}/gitops-ci-hw-${{ env.NEXT_VERSION }}/" ./k8s/app-v1.yaml
-
-    - name: Display CURRENT_VERSION, NEXT_VERSION, and Files
-      run: |
-        # Display the CURRENT_VERSION and NEXT_VERSION
-        echo "CURRENT_VERSION: $CURRENT_VERSION"
-        echo "NEXT_VERSION: $NEXT_VERSION"
-
-        # Display the contents of the kustomization.yaml file
-        echo "kustomization.yaml contents:"
-        cat ./k8s/kustomization.yaml
-
-        # Display the contents of the app-v1.yaml file
-        echo "app-v1.yaml contents:"
-        cat ./k8s/app-v1.yaml
-
-
-    - name: Build and apply Kustomize deployment
-      run: |
-        kustomize build ./k8s | kubectl apply -f -
-
-    - name: Verify deployment
-      run: |
-        kubectl get deployments -n gitops-ci-hw
-
-    - name: Apply v2 deployment
+    - name: Apply v1 deployment
       run: |
         kubectl apply -f ./k8s/app-v1.yaml
 
-    - name: Check Success of v2 deployment
+    - name: Apply Service
       run: |
-        kubectl rollout status deploy gitops-ci-hw-v${{ env.NEXT_VERSION }} -w
+        kubectl apply -f ./k8s/service.yaml
 
-    - name: Patch service
-      run: |
-        kubectl patch service gitops-ci-hw -p '{"spec":{"selector":{"version":"${{ env.NEXT_VERSION }}"}}}'
-
-    - name: Delete v1
-      run: |
-        kubectl delete deploy my-app-v${{ env.CURRENT_VERSION }}
+#    - name: Get the latest deployment version and set the version variable
+#      id: version
+#      run: |
+#        CURRENT_VERSION=$(kubectl get deployments -n gitops-ci-hw -o json | \
+#          jq -r '.items[] | select(.metadata.name | test("^gitops-ci-hw-")) | .metadata.name' | \
+#          grep -o '[0-9]*$' | sort -n | tail -n 1)
+#
+#        if [ -z "$CURRENT_VERSION" ]; then
+#          CURRENT_VERSION=1
+#        fi
+#
+#        NEXT_VERSION=$((CURRENT_VERSION + 1))
+#        echo "NEXT_VERSION=$NEXT_VERSION" >> $GITHUB_ENV
+#
+#    - name: Update app-v1.yaml with the new version
+#      run: |
+#        # Replace the placeholder ${VERSION} with the new version from NEXT_VERSION
+#        sed -i "s/gitops-ci-hw-\${VERSION}/gitops-ci-hw-${{ env.NEXT_VERSION }}/" ./k8s/app-v1.yaml
+#
+#    - name: Display CURRENT_VERSION, NEXT_VERSION, and Files
+#      run: |
+#        # Display the CURRENT_VERSION and NEXT_VERSION
+#        echo "CURRENT_VERSION: $CURRENT_VERSION"
+#        echo "NEXT_VERSION: $NEXT_VERSION"
+#
+#        # Display the contents of the kustomization.yaml file
+#        echo "kustomization.yaml contents:"
+#        cat ./k8s/kustomization.yaml
+#
+#        # Display the contents of the app-v1.yaml file
+#        echo "app-v1.yaml contents:"
+#        cat ./k8s/app-v1.yaml
+#
+#
+#    - name: Build and apply Kustomize deployment
+#      run: |
+#        kustomize build ./k8s | kubectl apply -f -
+#
+#    - name: Verify deployment
+#      run: |
+#        kubectl get deployments -n gitops-ci-hw
+#
+#    - name: Apply v2 deployment
+#      run: |
+#        kubectl apply -f ./k8s/app-v1.yaml
+#
+#    - name: Check Success of v2 deployment
+#      run: |
+#        kubectl rollout status deploy gitops-ci-hw-v${{ env.NEXT_VERSION }} -w
+#
+#    - name: Patch service
+#      run: |
+#        kubectl patch service gitops-ci-hw -p '{"spec":{"selector":{"version":"${{ env.NEXT_VERSION }}"}}}'
+#
+#    - name: Delete v1
+#      run: |
+#        kubectl delete deploy my-app-v${{ env.CURRENT_VERSION }}
 
 
 
