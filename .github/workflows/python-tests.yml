@@ -133,9 +133,10 @@ jobs:
         NEXT_VERSION=$((CURRENT_VERSION + 1))
         echo "NEXT_VERSION=$NEXT_VERSION" >> $GITHUB_ENV
 
-    - name: Update kustomization.yaml with the new version
+    - name: Update app-v1.yaml with the new version
       run: |
-        sed -i "s/gitops-ci-hw-\${VERSION}/gitops-ci-hw-${{ env.NEXT_VERSION }}/" ./k8s/kustomization.yaml
+        # Replace the placeholder ${VERSION} with the new version from NEXT_VERSION
+        sed -i "s/gitops-ci-hw-\${VERSION}/gitops-ci-hw-${{ env.NEXT_VERSION }}/" ./k8s/app-v1.yaml
 
     - name: Display CURRENT_VERSION, NEXT_VERSION, and Files
       run: |
