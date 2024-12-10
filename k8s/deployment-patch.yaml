@@ -1,4 +1,14 @@
-apiVersion: v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gitops-ci-hw-${VERSION}
+  name: gitops-ci-hw-${VERSION}  # Make sure this name matches your deployment name
+spec:
+  replicas: 2
+  template:
+    spec:
+      containers:
+        - name: gitops-ci-hw
+          image: olesiayav/gitops_ci_hw
+          ports:
+            - name: http
+              containerPort: 8050

@@ -122,27 +122,20 @@ jobs:
     - name: Get the latest deployment version and set the version variable
       id: version
       run: |
-        # Get the latest deployment version (e.g., gitops-ci-hw-1, gitops-ci-hw-2)
         CURRENT_VERSION=$(kubectl get deployments -n gitops-ci-hw -o json | \
           jq -r '.items[] | select(.metadata.name | test("^gitops-ci-hw-")) | .metadata.name' | \
           grep -o '[0-9]*$' | sort -n | tail -n 1)
 
-        # If CURRENT_VERSION is not found (empty or null), set it to 1
         if [ -z "$CURRENT_VERSION" ]; then
           CURRENT_VERSION=1
         fi
 
-        # Increment the version
         NEXT_VERSION=$((CURRENT_VERSION + 1))
-
-        # Set the version as an environment variable for use in kustomization
         echo "NEXT_VERSION=$NEXT_VERSION" >> $GITHUB_ENV
-
 
     - name: Update kustomization.yaml with the new version
       run: |
-        # Replace the placeholder with the new version in the deployment patch
-        sed -i "s/name: gitops-ci-hw-.*/name: gitops-ci-hw-${{ env.NEXT_VERSION }}/" ./k8s/kustomization.yaml
+        sed -i "s/gitops-ci-hw-\${VERSION}/gitops-ci-hw-${{ env.NEXT_VERSION }}/" ./k8s/kustomization.yaml
 
     - name: Display CURRENT_VERSION, NEXT_VERSION, and Files
       run: |
