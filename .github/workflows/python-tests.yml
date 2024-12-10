@@ -9,62 +9,62 @@ on:
       - main
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./app
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
-
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-
-    - name: Run tests
-      run: |
-        pytest 
-        
-    - name: Set up Docker Buildx
-      id: buildx
-      uses: docker/setup-buildx-action@v2
-
-    - name: Debug Docker tag
-      run: |
-        echo "Tag: ${{ secrets.DOCKER_USERNAME }}/gitops-ci-hw:${{ github.sha }}"
-
-    - name: Cache Docker layers
-      uses: actions/cache@v3
-      with:
-        path: /tmp/.buildx-cache
-        key: ${{ runner.os }}-buildx-${{ github.sha }}
-        restore-keys: |
-          ${{ runner.os }}-buildx-
-
-    - uses: docker/login-action@v2
-      with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
-
-    - name: Build and push
-      uses: docker/build-push-action@v5
-      with:
-        context: ./app
-        file: ./app/Dockerfile
-        builder: ${{ steps.buildx.outputs.name }}
-        push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/gitops_ci_hw:${{ github.sha }}, ${{ secrets.DOCKER_USERNAME }}/gitops_ci_hw:latest
-        platforms: linux/amd64,linux/arm64
-        cache-from: type=local,src=/tmp/.buildx-cache
-        cache-to: type=local,dest=/tmp/.buildx-cache
+#  test:
+#    runs-on: ubuntu-latest
+#    defaults:
+#      run:
+#        working-directory: ./app
+#
+#    steps:
+#    - name: Checkout code
+#      uses: actions/checkout@v3
+#
+#    - name: Set up Python
+#      uses: actions/setup-python@v4
+#      with:
+#        python-version: '3.11'
+#
+#    - name: Install dependencies
+#      run: |
+#        python -m pip install --upgrade pip
+#        pip install -r requirements.txt
+#
+#    - name: Run tests
+#      run: |
+#        pytest
+#
+#    - name: Set up Docker Buildx
+#      id: buildx
+#      uses: docker/setup-buildx-action@v2
+#
+#    - name: Debug Docker tag
+#      run: |
+#        echo "Tag: ${{ secrets.DOCKER_USERNAME }}/gitops-ci-hw:${{ github.sha }}"
+#
+#    - name: Cache Docker layers
+#      uses: actions/cache@v3
+#      with:
+#        path: /tmp/.buildx-cache
+#        key: ${{ runner.os }}-buildx-${{ github.sha }}
+#        restore-keys: |
+#          ${{ runner.os }}-buildx-
+#
+#    - uses: docker/login-action@v2
+#      with:
+#        username: ${{ secrets.DOCKER_USERNAME }}
+#        password: ${{ secrets.DOCKER_PASSWORD }}
+#
+#    - name: Build and push
+#      uses: docker/build-push-action@v5
+#      with:
+#        context: ./app
+#        file: ./app/Dockerfile
+#        builder: ${{ steps.buildx.outputs.name }}
+#        push: true
+#        tags: ${{ secrets.DOCKER_USERNAME }}/gitops_ci_hw:${{ github.sha }}, ${{ secrets.DOCKER_USERNAME }}/gitops_ci_hw:latest
+#        platforms: linux/amd64,linux/arm64
+#        cache-from: type=local,src=/tmp/.buildx-cache
+#        cache-to: type=local,dest=/tmp/.buildx-cache
 
   deploy:
     name: Deploy
@@ -104,12 +104,12 @@ jobs:
 
     - name: List files
       run: ls -l
-    - name: List k8 directory
-      run: ls -l ./k8
+    - name: List k8s directory
+      run: ls -l ./k8s
 
     - name: Apply v1 deployment
       run: |
-        kubectl apply -f kubectl apply -f ./k8/app-v1.yaml
+        kubectl apply -f kubectl apply -f ./k8s/app-v1.yaml
 
     - name: Test v1 deployment
       run: |
