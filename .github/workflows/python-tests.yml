@@ -111,13 +111,13 @@ jobs:
       with:
         version: 'latest'
 
-    - name: Apply v1 deployment
-      run: |
-        kubectl apply -f ./k8s/app-v1.yaml
-
-    - name: Apply Service
-      run: |
-        kubectl apply -f ./k8s/service.yaml
+#    - name: Apply v1 deployment
+#      run: |
+#        kubectl apply -f ./k8s/app-v1.yaml
+#
+#    - name: Apply Service
+#      run: |
+#        kubectl apply -f ./k8s/service.yaml
 
     - name: Apply v2 deployment
       run: |
