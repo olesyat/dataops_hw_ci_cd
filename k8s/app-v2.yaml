@@ -9,12 +9,12 @@ spec:
   selector:
     matchLabels:
       app: gitops-ci-hw
-      version: 2
+      version: "2"
   template:
     metadata:
       labels:
         app: gitops-ci-hw
-        version: 2
+        version: "2"
     spec:
       containers:
         - image: olesiayav/gitops_ci_hw
