@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: gitops_ci_hw
+  name: gitops_ci_hw-v2
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: gitops_ci_hw
+      version: v2.0.0
+  template:
+    metadata:
+      labels:
+        app: gitops_ci_hw
+    spec:
+      containers:
+        - image: gitops_ci_hw
+          name: gitops_ci_hw
+          ports:
+            - name: http
+              containerPort: 8050

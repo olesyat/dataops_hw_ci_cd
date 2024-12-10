@@ -83,3 +83,10 @@ jobs:
       uses: imranismail/setup-kustomize@v1
       with:
         kustomize-version: "3.6.1"
+
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v0
+
+    - name: Get the GKE credentials so we can deploy to the cluster
+      run: |
+        gcloud container clusters get-credentials "$GKE_CLUSTER" --region "$GKE_REGION"
