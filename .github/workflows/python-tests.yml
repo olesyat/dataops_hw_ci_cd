@@ -111,13 +111,13 @@ jobs:
       with:
         version: 'latest'
 
-#    - name: Apply v1 deployment
-#      run: |
-#        kubectl apply -f ./k8s/app-v1.yaml
-#
-#    - name: Apply Service
-#      run: |
-#        kubectl apply -f ./k8s/service.yaml
+    - name: Apply v1 deployment
+      run: |
+        kubectl apply -f ./k8s/app-v1.yaml
+
+    - name: Apply Service
+      run: |
+        kubectl apply -f ./k8s/service.yaml
 
     - name: Apply v2 deployment
       run: |
@@ -129,7 +129,7 @@ jobs:
 
     - name: Patch service
       run: |
-        kubectl patch service gitops-ci-hw -p '{"spec":{"selector":{"version":"v2.0.0"}}}'
+        kubectl patch service gitops-ci-hw -p '{"spec":{"selector":{"version":"2"}}}'
 
 
 
