@@ -69,9 +69,6 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./k8
     needs: test
 
     env:
@@ -112,7 +109,7 @@ jobs:
 
     - name: Apply v1 deployment
       run: |
-        kubectl apply -f app-v1.yaml
+        kubectl apply -f kubectl apply -f ./k8/app-v1.yaml
 
     - name: Test v1 deployment
       run: |
