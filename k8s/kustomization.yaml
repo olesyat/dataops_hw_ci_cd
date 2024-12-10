@@ -6,7 +6,7 @@ resources:
 - ingress.yaml
 patchesStrategicMerge:
 - deployment-patch.yaml
-namespace: gitops-ci-hw
+#namespace: gitops-ci-hw
 images:
 - name: gitops_ci_hw
   newName: olesiayav/gitops_ci_hw
