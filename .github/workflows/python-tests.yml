@@ -105,6 +105,11 @@ jobs:
       with:
         version: 'latest'
 
+    - name: List files
+      run: ls -l
+    - name: List k8 directory
+      run: ls -l ./k8
+
     - name: Apply v1 deployment
       run: |
         kubectl apply -f app-v1.yaml
