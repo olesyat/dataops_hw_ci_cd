@@ -17,7 +17,7 @@ spec:
         version: v1.0.0
     spec:
       containers:
-        - image: gitops-ci-hw
+        - image: olesiayav/gitops_ci_hw
           name: gitops-ci-hw
           ports:
             - name: http

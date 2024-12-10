@@ -111,16 +111,18 @@ jobs:
       with:
         version: 'latest'
 
-    - name: List files
-      run: ls -l
-    - name: List k8s directory
-      run: ls -l ./k8s
-
     - name: Apply v1 deployment
       run: |
         kubectl apply -f ./k8s/app-v1.yaml
 
+    - name: Apply Service
+      run: |
+        kubectl apply -f ./k8s/service.yaml
+
+    - name: List all services
+      run: kubectl get svc
+
     - name: Test v1 deployment
       run: |
-        service=$(kubectl get svc my-app -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+        service=$(kubectl get svc gitops-ci-hw -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
         curl "$service"

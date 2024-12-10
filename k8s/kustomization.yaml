@@ -6,6 +6,6 @@ resources:
 - ingress.yaml
 namespace: gitops-ci-hw
 images:
-- name: gitops-ci-hw
+- name: gitops_ci_hw
   newName: olesiayav/gitops_ci_hw
   newTag: c231f4bf738535df912638b2f42b820fe250d0a6
