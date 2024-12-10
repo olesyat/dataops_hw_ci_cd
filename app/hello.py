@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 if config.getboolean("features", "feature_1") == True:
 	message = "Hello, Sasha!"
-elif config.getboolean("features", "feature_12") == True:
+elif config.getboolean("features", "feature_2") == True:
 	message = "Hello, Olesia!"
 else:
 	message = "Hello, World!"
