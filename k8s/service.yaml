@@ -9,3 +9,6 @@ spec:
     - name: http
       port: 8050
       targetPort: http
+    - selector:
+      app: hello-gitops-${VERSION}
+      version: 1
