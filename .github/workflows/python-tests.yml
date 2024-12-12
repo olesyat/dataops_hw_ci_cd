@@ -1,4 +1,4 @@
-name: Python Tests
+name: CI_task3
 
 on:
   push:
@@ -175,7 +175,7 @@ jobs:
 
     - name: Delete v1
       run: |
-        kubectl delete deploy my-app-${{ env.CURRENT_VERSION }}
+        kubectl delete deploy gitops-ci-hw-${{ env.CURRENT_VERSION }}
 
     - name: Commit files
       run: |
