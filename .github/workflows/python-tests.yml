@@ -131,7 +131,7 @@ jobs:
         fi
 
         NEXT_VERSION=$((CURRENT_VERSION + 1))
-        echo "CURRENT_VERSION=$CURRENT_VERSION"
+        echo "CURRENT_VERSION=$CURRENT_VERSION" >> $GITHUB_ENV
         echo "NEXT_VERSION=$NEXT_VERSION" >> $GITHUB_ENV
 
     - name: Update app-v1.yaml with the new version
