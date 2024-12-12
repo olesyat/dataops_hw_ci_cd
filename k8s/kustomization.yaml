@@ -10,5 +10,5 @@ images:
   newTag: c231f4bf738535df912638b2f42b820fe250d0a6
 - name: hello-gitops
   newName: olesiayav/hello-gitops
-  newTag: 89631119458a61d6c14730512ec5fb1c0413f00a
+  newTag: c51387280102ebcb0459f573428c03d35382ae5a
 namespace: hello-gitops
